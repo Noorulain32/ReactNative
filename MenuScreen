@@ -1,0 +1,166 @@
+#  MenuScreen.js
+
+import React,{ useState } from 'react';
+import { View, Text, StyleSheet, SectionList, Pressable} from 'react-native';
+
+import FeedbackScreen from './FeedbackScreen';
+
+const pink = '#FF69B4';
+const white='white';
+
+const menuItemsToDisplay = [
+    {
+      title: 'New' , 
+      data: [
+        'Waxing', 
+        'Threading', 
+        'Facials', 
+        'Massages',
+      ],
+    },
+    {
+      title: '50% OFF',
+      data: ['Manicure','Pedicure','Hair Treatment','Hair mask','Eyebrows'],
+    },
+    {
+      title:'Deals',
+      data: [
+        'Hair styling',
+        'Fries',
+      'Buttered Rice',
+      'Bread Sticks',
+      'Pita Pocket',
+      'Lentil Soup',
+      'Greek Salad',
+      'Rice Pilaf',
+      ],
+    },
+  ];
+
+//const Header = () =>  <Text style={menuStyles.headerText}>View Services</Text> ;
+
+const Item = ({ name, price }) => (
+  <View style={menuStyles.innerContainer}>
+    <Text style={menuStyles.itemText}>{name}</Text>
+    <Text style={menuStyles.itemText}>{price}</Text>
+  </View>
+);
+
+const Separator = () => <View style={menuStyles.separator} />;
+
+const Footer = () => (
+  <Text style={menuStyles.footerText}>
+    All Rights Reserved by Xposure 2023
+  </Text>
+);
+
+const MenuScreen = () => {
+  const [showMenu, setShowMenu] = useState(false);
+  const renderItem = ({ item }) => <Item name={item} />;
+
+  const [showForm, setShowForm] = useState(false);
+
+  function renderSectionHeader({ section: { title } }) {
+    return (
+      <Text style={menuStyles.sectionHeader}>{title} </Text>
+    );
+  }
+
+  return (
+    <View style={menuStyles.container}>
+      <Text style = {menuStyles.infoSection}>
+      Xposure Salon is a premier salon that offers a wide range of beauty services, 
+      including haircuts, styling, coloring, and spa treatments, providing clients with a luxurious and personalized experience!
+      </Text>
+      <Pressable style={menuStyles.button} 
+        onPress={() => {
+        setShowMenu(!showMenu);
+       }}>
+       <Text style={menuStyles.buttonText}>
+        {showMenu? 'Home' : 'View Services'
+        } </Text>
+      </Pressable>
+      {showMenu && (
+        <SectionList
+        keyExtractor={(item, index) => item + index}
+        sections={menuItemsToDisplay}
+        renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
+        ListFooterComponent={Footer}
+        ItemSeparatorComponent={Separator}></SectionList>
+        )
+      }
+      <Pressable style={menuStyles.button} 
+        onPress={() => {
+        setShowForm(!showForm);
+       }}>
+       <Text style={menuStyles.buttonText}>
+        {showForm? 'Home' : 'Feedbackform'
+        } </Text>
+      </Pressable>
+      {showForm &&(
+        <FeedbackScreen/>
+      )}
+      </View>
+  );
+};
+    
+   const menuStyles = StyleSheet.create({
+      container: {
+        flex: 0.95,
+      },
+      innerContainer: {
+        paddingHorizontal: 40,
+        paddingVertical: 20,
+        backgroundColor: '#333333',
+      },
+      sectionHeader: {
+        backgroundColor: '#fbdabb',
+        color: '#333333',
+        fontSize: 34,
+        flexWrap: 'wrap',
+        textAlign: 'center',
+      },
+      itemText: {
+        color: '#F4CE14',
+        fontSize: 32,
+      },
+      separator: {
+        borderBottomWidth: 1,
+        borderColor: '#EDEFEE',
+      },
+      footerText: {
+        color: '#EDEFEE',
+        fontSize: 20,
+        flexWrap: 'wrap',
+        textAlign: 'center',
+      },
+      button:{
+        fontsize: 22,
+        padding: 10 ,
+        marginVertical: 8 ,
+        margin: 40,
+        backgroundColor: "white",
+        borderColor:'black',
+        borderWidth: 2,
+        borderRadius: 12,
+      },
+      buttonText:
+      {
+        color: "black",
+        textAlign:'center',
+        fontSize: 32,
+      },
+      infoSection: {
+        fontSize: 24,
+        padding: 40,
+        marginVertical: 8,
+        color: 'black',
+        textAlign: 'center',
+        backgroundColor: '#FFC0CB',
+      },
+    });
+    
+  
+export default MenuScreen;
+
